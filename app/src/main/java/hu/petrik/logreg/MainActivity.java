@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
         btnBej.setOnClickListener(v -> {
             String felhN= editFelh.getText().toString().trim();
             String jelsz= editJelsz.getText().toString().trim();
+            String logghoz="";
+
             if(felhN.isEmpty()||jelsz.isEmpty()){
                 Toast.makeText(getApplicationContext(), "Minden mező kitöltése kötelező",
                         Toast.LENGTH_SHORT).show();
@@ -42,7 +44,12 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Ilyen felhasználónév jelszó kombináció nem létezik",
                             Toast.LENGTH_SHORT).show();
                 }else {
+                    StringBuilder strB = new StringBuilder();
+                    while (ellenorzes.moveToNext()) {
+                        logghoz = strB.append(ellenorzes.getString(4)).toString();
+                    }
                     Intent bejelentkezett = new Intent(MainActivity.this, LoggedInActivity.class);
+                    bejelentkezett.putExtra("Teljesnev", logghoz);
                     startActivity(bejelentkezett);
                     finish();
                 }
